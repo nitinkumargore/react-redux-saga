@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
 import './App.css';
+import {addTodo, deleteTodo, updateTodo, toggleIsDone, todoListState} from './todoListSlice';
+
 
 function App() {
-
-  const todos:Todo[] = [{
-    id:1,
-    name:'learn Rexus',
-    isActive:true,
-    isDone:false
-  }]
+  
+  const dispatch = useDispatch();
+  
+  const todos:Todo[] = useSelector((state:{todoList:todoListState})=>state.todoList.todos);
 
   const [newTodoText, setNewTodoText] = useState('');
 
@@ -24,7 +25,8 @@ function App() {
               <div className='min-w-[25px] mt-[7px]'><input type='checkbox' className='h-[18px] w-[18px]'/></div>
               <div className='min-w-[400px] w-[400px] break-words'>{td.name}</div>
               <div className='min-w-[100px]'><button className='p-1 px-3 bg-blue-600 text-white rounded'>Edit</button></div>
-              <button className='p-1 px-3 bg-blue-600 text-white rounded'>Delete</button>
+              <button className='p-1 px-3 bg-blue-600 text-white rounded'
+                onClick={()=>dispatch(deleteTodo(td))}>Delete</button>
             </div>)
           } 
          </div>
@@ -41,6 +43,17 @@ function App() {
               />
             <button className='mx-2 bg-blue-600 rounded p-1 px-3 text-white'
               disabled={!Boolean(newTodoText)}
+              onClick={()=>{
+                dispatch(addTodo(
+                  {
+                    id:2,
+                    name:newTodoText,
+                    isDone:false,
+                    isActive:true
+                  }
+                ));
+                setNewTodoText('');
+              }}
             >Add Todo</button>
          </div>
       </div>
