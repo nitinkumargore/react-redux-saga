@@ -1,7 +1,7 @@
 const BASE_URL = 'http://localhost:4000/todos';
 
 export const getAllTodos = async():Promise<Todo[]> => {
-    return fetch(BASE_URL).then(res=>res.json());
+    return fetch(BASE_URL).then(res=>res.json())
 }
 
 export const createTodo = async (name:string):Promise<Todo> => {

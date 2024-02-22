@@ -1,8 +1,9 @@
 import { useSelector, useDispatch } from 'react-redux';
 import {v4 as uuidv4} from 'uuid';
 
-import { deleteTodo, updateTodo, toggleIsDone, setSelectedTodo} from '../store/todoListSlice';
+import { deleteTodo, updateTodo, toggleIsDone, setSelectedTodo, fetchAllTodos} from '../store/todoListSlice';
 import { getAllTodos, getSearchText, getSelectedTodo } from '../utils/selectors';
+import { useEffect } from 'react';
 
 export const TodoDisplay = () => {
     const dispatch = useDispatch();
@@ -13,9 +14,13 @@ export const TodoDisplay = () => {
 
     const emptyTodo = {id:uuidv4(),name:'',isDone:false,isActive:false};
 
+    useEffect(()=>{
+      dispatch(fetchAllTodos());
+    },[])
+
     return(<div>
         {
-         todos.filter(td=>td.name.includes(searchText)).map((td:Todo)=>
+         todos?.filter(td=>td.name.includes(searchText)).map((td:Todo)=>
          <div className='flex flex-end flex-gap-10 items-center min-h-[40px]'>
            <div className='mt-[7px]'>
              <input type='checkbox' className='h-[18px] w-[18px]'

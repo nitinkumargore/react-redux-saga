@@ -2,22 +2,22 @@ import { createSlice } from "@reduxjs/toolkit";
 import {v4 as uuidv4} from 'uuid';
 
 const emptyTodo:Todo = {id:uuidv4(),name:'',isDone:false,isActive:false};
-const initialState:{todos:Todo[],selectedTodo:Todo,searchText:string,newTodoName:string}={
-    todos:[{
-        id:uuidv4(),
-        name:'Learn NextJS',
-        isDone:false,
-        isActive:true
-    }],
+const initialState:{todos:Todo[],selectedTodo:Todo,searchText:string,newTodoName:string, isLoading?:boolean, error?:''}={
+    todos:[],
     selectedTodo:emptyTodo,
     searchText:'',
-    newTodoName:''
+    newTodoName:'',
+    isLoading:false,
+    error:''
 };
 
 export const todoListSlice = createSlice({
     name:'todoList',
     initialState,
     reducers:{
+        fetchAllTodos:(state)=>{ state.isLoading = true; },
+        fetchAllTodosSuccess:(state, action)=>{ state.todos = action.payload },
+
         addTodo:(state, action)=>{ state.todos.push(action.payload); },
         deleteTodo: (state, action) => { state.todos = state.todos.filter(td => td.id!=action.payload.id);},
         updateTodo:(state, action)=>{ state.todos = state.todos.map(td=> (td.id===action.payload.id)? action.payload : td)},
@@ -36,6 +36,6 @@ export const todoListSlice = createSlice({
     }
 });
 
-export const {addTodo, deleteTodo, updateTodo, toggleIsDone, setSelectedTodo, updateSearchText, updateNewTodoName} = todoListSlice.actions;
+export const {fetchAllTodos, fetchAllTodosSuccess, addTodo, deleteTodo, updateTodo, toggleIsDone, setSelectedTodo, updateSearchText, updateNewTodoName} = todoListSlice.actions;
 export default todoListSlice.reducer;
 export type todoListState = ReturnType<typeof todoListSlice.reducer>;
