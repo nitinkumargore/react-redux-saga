@@ -4,7 +4,6 @@ import {getAllTodos , createTodo, updateTodo, deleteTodo } from '../apis/todoApi
 function* workGetAllTodos(){
     try{
         const resp:Todo[] & ApiError = yield call(()=>getAllTodos());
-        console.log('workGetAllTodos - received data for API',resp);
         if(resp.statusCode && resp.statusCode != 200){
             yield put({type:'todoList/fetchAllTodosError', payload:(resp.message+' '+resp.error)});
         }else{
