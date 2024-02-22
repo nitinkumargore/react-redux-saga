@@ -2,8 +2,17 @@ import { call, put, takeEvery} from 'redux-saga/effects';
 import {getAllTodos , createTodo, updateTodo, deleteTodo } from '../apis/todoApis';
 
 function* workGetAllTodos(){
-    const todos:Todo[] = yield call(()=>getAllTodos());
-    yield put({type:'todoList/fetchAllTodosSuccess',payload:todos});
+    try{
+        const resp:Todo[] & ApiError = yield call(()=>getAllTodos());
+        console.log('workGetAllTodos - received data for API',resp);
+        if(resp.statusCode && resp.statusCode != 200){
+            yield put({type:'todoList/fetchAllTodosError', payload:(resp.message+' '+resp.error)});
+        }else{
+            yield put({type:'todoList/fetchAllTodosSuccess',payload:resp});
+        }
+    }catch(error){
+        yield put({type:'todoList/fetchAllTodosError', payload:error});
+    }
 }
 
 function* workCreateTodo({payload}:{type:string, payload:string}){

@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import { configureStore } from '@reduxjs/toolkit';
-import todoListRootSaga from './sagas/todoListSaga';
 
+import todoListRootSaga from './sagas/todoListSaga';
 import todoListReducer from './store/todoListSlice';
 
 import './index.css';

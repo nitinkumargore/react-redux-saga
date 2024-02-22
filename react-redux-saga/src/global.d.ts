@@ -3,4 +3,10 @@ interface Todo{
     name:string,
     isDone:boolean,
     isActive:boolean,
-}
+};
+
+interface ApiError{
+    statusCode?:number, 
+    message?:string, 
+    error?:string
+}; 

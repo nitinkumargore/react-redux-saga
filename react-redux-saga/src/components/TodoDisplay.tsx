@@ -20,8 +20,9 @@ export const TodoDisplay = () => {
 
     return(<div>
         {
-         todos?.filter(td=>td.name.includes(searchText)).map((td:Todo)=>
-         <div className='flex flex-end flex-gap-10 items-center min-h-[40px]'>
+         todos?.filter?.(td=>td.name.includes(searchText)).map((td:Todo)=>
+         <div className='flex flex-end flex-gap-10 items-center min-h-[40px]'
+          key={td.id}>
            <div className='mt-[7px]'>
              <input type='checkbox' className='h-[18px] w-[18px]'
                checked={td.isDone}
